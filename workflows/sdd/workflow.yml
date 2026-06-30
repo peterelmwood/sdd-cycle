@@ -1,0 +1,77 @@
+schema_version: "1.0"
+workflow:
+  id: "sdd"
+  name: "SDD Cycle"
+  version: "1.1.0"
+  author: "peterelmwood"
+  description: "specify → plan → tasks → analyze → apply → implement; single gate before implement"
+
+requires:
+  speckit_version: ">=0.8.5"
+  integrations:
+    any:
+      - "claude"
+      - "copilot"
+      - "gemini"
+      - "opencode"
+
+inputs:
+  spec:
+    type: string
+    required: true
+    prompt: "Describe what you want to build"
+  integration:
+    type: string
+    default: "auto"
+    prompt: "Integration to use (e.g. claude, copilot, gemini; 'auto' uses the project's initialized integration)"
+  scope:
+    type: string
+    default: "full"
+    enum: ["full", "backend-only", "frontend-only"]
+
+steps:
+  - id: specify
+    command: speckit.specify
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: plan
+    command: speckit.plan
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: analyze
+    command: speckit.analyze
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: apply-analysis
+    type: prompt
+    integration: "{{ inputs.integration }}"
+    prompt: >-
+      Review the findings from the preceding speckit.analyze run for this
+      feature. Apply every remediation suggestion that resolves an
+      inconsistency, ambiguity, or gap across spec.md, plan.md, and tasks.md,
+      editing those artifacts directly. Do not ask for confirmation; apply the
+      fixes. If analyze reported no issues, make no changes and say so.
+
+  - id: review-before-implement
+    type: gate
+    message: "Spec, plan, tasks, and analysis (with fixes applied) are ready. Approve to begin implementation."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: implement
+    command: speckit.implement
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"

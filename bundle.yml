@@ -1,0 +1,18 @@
+schema_version: "1.0"
+bundle:
+  id: sdd-cycle
+  name: "SDD Cycle"
+  version: "1.0.0"
+  role: "workflow"
+  description: "Local-first SDD chain: specify→plan→tasks→analyze→gate→implement, with a one-command launcher"
+  author: "peterelmwood"
+  license: "MIT"
+requires:
+  speckit_version: ">=0.8.5"
+provides:
+  extensions:
+    - id: sdd
+      version: "1.0.0"
+  workflows:
+    - id: sdd
+      version: "1.1.0"
