@@ -75,7 +75,7 @@ constitution → zero placeholder tokens.
 - [ ] T008 [US2] Reconcile `bundle.yml` so `provides.workflows[sdd].version` equals `workflows/sdd/workflow.yml`'s `1.1.0`, and confirm `provides.extensions[sdd].version` still equals `extensions/sdd/extension.yml`'s version (satisfies FR-003, SC-003).
 - [ ] T009 [US2] Verify and, if needed, align the `speckit_version` floor across `bundle.yml`, `extensions/sdd/extension.yml`, and `workflows/sdd/workflow.yml` so all are stated consistently (satisfies FR-004).
 - [ ] T010 [US2] Bump `bundle.yml` `bundle.version` to `1.1.0` to reflect the readiness release aligned with the shipped workflow line (supports R5; keep consistent with CHANGELOG in T017).
-- [ ] T011 [US2] Ratify `.specify/memory/constitution.md` via the `speckit.constitution` flow with the five principles from plan.md (Local-first & portable; Manifests are the contract; Docs must be executable; Behavior-preserving packaging; Guardrail before release), a Governance section, and a `Version: 1.0.0 | Ratified: 2026-06-30 | Last Amended: 2026-06-30` line — no placeholder tokens remain (satisfies FR-005, SC-004).
+- [ ] T011 [US2] Ratify `.specify/memory/constitution.md` via the `speckit.constitution` flow with the five principles from plan.md (Local-first & portable; Manifests are the contract; Docs must be executable; Behavior-preserving packaging; Guardrail before release), a Governance section, and a `Version: 1.0.0 | Ratified: 2026-06-30 | Last Amended: 2026-06-30` line — no placeholder tokens remain (satisfies FR-005, SC-004). Note: the `speckit.constitution` flow fires the mandatory `before_constitution` hook (`git.initialize`); git is already initialized, so this is an expected no-op.
 
 **Checkpoint**: Manifests agree with each other; constitution is real.
 
@@ -93,7 +93,7 @@ regressions; a documented step produces a distributable artifact.
 - [ ] T013 [US3] Ensure `scripts/validate-bundle.ps1` exits non-zero and prints an identifying message for each failure class (version mismatch, missing file reference, malformed YAML, placeholder constitution) (satisfies FR-007).
 - [ ] T014 [US3] Run `scripts/validate-bundle.ps1` on the corrected repository and confirm exit 0 with a PASS summary (contract T1 / quickstart Scenario A / SC-005).
 - [ ] T015 [US3] Temporarily break `bundle.yml` (wrong workflow version) and a command `file` reference; confirm the check fails naming each problem; revert and confirm exit 0 again (contract T2/T3 / quickstart Scenario B).
-- [ ] T016 [US3] Document the distributable artifact step (`specify bundle build` → `dist/`) in `README.md` and confirm the build produces a versioned archive (satisfies FR-009, SC-006 / quickstart Scenario F).
+- [ ] T016 [US3] Document distribution in `README.md`: the **supported** paths (install from clone with `--dev`; build an artifact with `specify bundle build` → `dist/`) **and**, plainly, the **unsupported** paths (raw-URL `specify extension add --from <url>`; catalog-based `specify bundle install`). Confirm the build produces a versioned archive (satisfies FR-009 parts a+b, SC-006 / quickstart Scenario F).
 
 **Checkpoint**: Correctness is guarded by a repeatable check; a release artifact can be produced.
 

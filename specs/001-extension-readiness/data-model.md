@@ -60,8 +60,14 @@ parses. Not version-pinned by the bundle.
 
 ## Consistency invariants (what "ready" means, formally)
 
-1. `∀ component ∈ provides`: `component.version == component's own manifest version`.
-2. `∀ manifest`: `speckit_version` floors are mutually compatible.
-3. `∀ file-reference ∈ manifests`: the referenced path exists.
-4. `constitution` has no placeholder tokens.
-5. `∀ command shown in README install section`: the referenced path exists.
+Invariants 1–4 are asserted by the automated validation check
+(`scripts/validate-bundle.ps1`). Invariant 5 is **verified manually** during the
+README audit (tasks T003/T004) and the quickstart pass (T020) — it is out of scope
+for the script because reliably parsing prose install commands is brittle; keeping
+the script to machine-readable manifests keeps it deterministic.
+
+1. *(automated)* `∀ component ∈ provides`: `component.version == component's own manifest version`.
+2. *(automated)* `∀ manifest`: `speckit_version` floors are mutually compatible.
+3. *(automated)* `∀ file-reference ∈ manifests`: the referenced path exists.
+4. *(automated)* `constitution` has no placeholder tokens.
+5. *(manual — T003/T004/T020)* `∀ command shown in README install section`: the referenced path exists.
