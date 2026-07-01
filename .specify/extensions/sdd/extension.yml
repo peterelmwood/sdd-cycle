@@ -1,0 +1,18 @@
+schema_version: "1.0"
+
+extension:
+  id: sdd
+  name: "SDD Cycle Launcher"
+  version: "1.0.0"
+  description: "Single-command launcher that drives the sdd workflow with one gate before implement"
+  author: "peterelmwood"
+  license: MIT
+
+requires:
+  speckit_version: ">=0.8.5"
+
+provides:
+  commands:
+    - name: speckit.sdd.run
+      file: commands/speckit.sdd.run.md
+      description: "Run the full SDD cycle (specify→plan→tasks→analyze→apply→gate→implement)"
