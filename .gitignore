@@ -1,0 +1,10 @@
+# Build output from `specify bundle build`
+dist/
+
+# Spec Kit caches
+.specify/extensions/.cache/
+.specify/workflows/.cache/
+
+# OS / editor cruft
+.DS_Store
+*.log

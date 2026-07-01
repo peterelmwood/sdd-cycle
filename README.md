@@ -1,6 +1,7 @@
 # SDD Cycle — reusable Spec Kit components
 
-Chains the spec-driven development cycle behind one launcher, with a single
+A standalone, portable [Spec Kit](https://github.com/github/spec-kit) bundle that
+chains the spec-driven development cycle behind one launcher, with a single
 human gate before any code is written:
 
 ```
@@ -22,10 +23,24 @@ automatically; the only stop is the approval gate before `implement`.
   - `extensions/sdd/` — a Spec Kit extension that installs the same launcher as a
     *model-invocable* skill, for non-Claude integrations.
 
+## Repository layout
+
+```
+.
+├── workflows/sdd/workflow.yml          # the sdd workflow (step graph)
+├── extensions/sdd/                      # launcher as a Spec Kit extension
+│   ├── extension.yml
+│   └── commands/speckit.sdd.run.md
+├── commands/speckit-sdd-run.md          # launcher as a Claude Code slash command
+├── bundle.yml                           # bundle manifest (pins the components)
+├── LICENSE
+└── README.md
+```
+
 ## Install
 
-Clone this repository (or copy the `sdd-cycle/` directory) onto the machine,
-then, from the target Spec Kit project:
+Clone this repository onto the machine, then, from the target Spec Kit project
+(paths below assume the clone lives at `/path/to/sdd-cycle`):
 
 ```bash
 # 1. the workflow (all integrations)
@@ -58,3 +73,15 @@ Invoked with no argument, it asks what to build before starting.
 > bundle resolves its components through a catalog this project does not publish.
 > `bundle.yml` exists only so `specify bundle build` can emit a versioned `.zip`
 > and to document the pinned component set.
+
+## History
+
+This bundle originated inside the
+[`blaiseelmwood.com`](https://github.com/peterelmwood/blaiseelmwood.com) repository
+(where it was dogfooded to drive that site's features) and was extracted into its
+own repository so it can be reused across projects. The commit history for these
+files is preserved from that origin.
+
+## License
+
+[MIT](./LICENSE) © peterelmwood
