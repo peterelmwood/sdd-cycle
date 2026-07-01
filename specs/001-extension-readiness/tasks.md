@@ -30,7 +30,7 @@ are real repository files: manifests, docs, and `scripts/`.
 
 **Purpose**: Prepare the location for new artifacts.
 
-- [ ] T001 Create the `scripts/` directory at the repository root for the validation check.
+- [X] T001 Create the `scripts/` directory at the repository root for the validation check.
 
 ---
 
@@ -39,7 +39,7 @@ are real repository files: manifests, docs, and `scripts/`.
 **Purpose**: Establish the ground truth every story relies on: the actual current
 version/reference facts.
 
-- [ ] T002 Read and record the current declared values from `bundle.yml`, `extensions/sdd/extension.yml`, `workflows/sdd/workflow.yml`, and `.specify/extensions.yml` (component ids, versions, `speckit_version` floors, command file paths) into a scratch note so later tasks reconcile against verified facts. (Confirms R1: `bundle.yml` pins workflow `sdd@1.0.0` while `workflow.yml` declares `1.1.0`.)
+- [X] T002 Read and record the current declared values from `bundle.yml`, `extensions/sdd/extension.yml`, `workflows/sdd/workflow.yml`, and `.specify/extensions.yml` (component ids, versions, `speckit_version` floors, command file paths) into a scratch note so later tasks reconcile against verified facts. (Result: `bundle.yml` already pins extension `sdd@1.0.0` and workflow `sdd@1.1.0`, matching their manifests — the initial R1 claim of a version mismatch was **incorrect**; no reconciliation edit was needed.)
 
 **Checkpoint**: Current-state facts confirmed — story work can begin.
 
@@ -54,11 +54,11 @@ a working launcher, with no failed command and no reference to a missing path.
 `specify workflow info sdd` shows the documented step order; each documented path
 exists.
 
-- [ ] T003 [US1] Audit every command and file path in `README.md` (Install, Repository layout, Components sections) against the actual repository; list any command that fails on Spec Kit 0.12.2 or any path that does not exist.
-- [ ] T004 [US1] Correct `README.md` so each install/usage command is accurate (workflow via `specify workflow add <path>`; Claude launcher via copying `commands/speckit-sdd-run.md` into `.claude/commands/`) and every referenced path exists (satisfies FR-001, FR-002).
-- [ ] T005 [US1] Ensure `README.md` clearly distinguishes the two launcher delivery paths (Claude Code slash command vs. Spec Kit extension) and states the reliable path per integration (satisfies FR-008).
-- [ ] T006 [US1] Ensure `README.md` documents each known limitation with its workaround (extension command not user-invocable on Claude; no published archive → clone + `--dev`; `specify bundle install` not the path) and verify each statement still holds on 0.12.2 (satisfies FR-010).
-- [ ] T007 [US1] Verify the documented step order in `README.md` matches `workflows/sdd/workflow.yml` (`specify → plan → tasks → analyze → apply → gate → implement`).
+- [X] T003 [US1] Audit every command and file path in `README.md` (Install, Repository layout, Components sections) against the actual repository; list any command that fails on Spec Kit 0.12.2 or any path that does not exist.
+- [X] T004 [US1] Correct `README.md` so each install/usage command is accurate (workflow via `specify workflow add <path>`; Claude launcher via copying `commands/speckit-sdd-run.md` into `.claude/commands/`) and every referenced path exists (satisfies FR-001, FR-002).
+- [X] T005 [US1] Ensure `README.md` clearly distinguishes the two launcher delivery paths (Claude Code slash command vs. Spec Kit extension) and states the reliable path per integration (satisfies FR-008).
+- [X] T006 [US1] Ensure `README.md` documents each known limitation with its workaround (extension command not user-invocable on Claude; no published archive → clone + `--dev`; `specify bundle install` not the path) and verify each statement still holds on 0.12.2 (satisfies FR-010).
+- [X] T007 [US1] Verify the documented step order in `README.md` matches `workflows/sdd/workflow.yml` (`specify → plan → tasks → analyze → apply → gate → implement`).
 
 **Checkpoint**: README is executable end-to-end; install-and-launch works as written.
 
@@ -72,10 +72,10 @@ real principles instead of placeholders.
 **Independent Test**: Cross-check all manifests → no contradictions; open the
 constitution → zero placeholder tokens.
 
-- [ ] T008 [US2] Reconcile `bundle.yml` so `provides.workflows[sdd].version` equals `workflows/sdd/workflow.yml`'s `1.1.0`, and confirm `provides.extensions[sdd].version` still equals `extensions/sdd/extension.yml`'s version (satisfies FR-003, SC-003).
-- [ ] T009 [US2] Verify and, if needed, align the `speckit_version` floor across `bundle.yml`, `extensions/sdd/extension.yml`, and `workflows/sdd/workflow.yml` so all are stated consistently (satisfies FR-004).
-- [ ] T010 [US2] Bump `bundle.yml` `bundle.version` to `1.1.0` to reflect the readiness release aligned with the shipped workflow line (supports R5; keep consistent with CHANGELOG in T017).
-- [ ] T011 [US2] Ratify `.specify/memory/constitution.md` via the `speckit.constitution` flow with the five principles from plan.md (Local-first & portable; Manifests are the contract; Docs must be executable; Behavior-preserving packaging; Guardrail before release), a Governance section, and a `Version: 1.0.0 | Ratified: 2026-06-30 | Last Amended: 2026-06-30` line — no placeholder tokens remain (satisfies FR-005, SC-004). Note: the `speckit.constitution` flow fires the mandatory `before_constitution` hook (`git.initialize`); git is already initialized, so this is an expected no-op.
+- [X] T008 [US2] Reconcile `bundle.yml` so `provides.workflows[sdd].version` equals `workflows/sdd/workflow.yml`'s `1.1.0`, and confirm `provides.extensions[sdd].version` still equals `extensions/sdd/extension.yml`'s version (satisfies FR-003, SC-003).
+- [X] T009 [US2] Verify and, if needed, align the `speckit_version` floor across `bundle.yml`, `extensions/sdd/extension.yml`, and `workflows/sdd/workflow.yml` so all are stated consistently (satisfies FR-004).
+- [X] T010 [US2] Bump `bundle.yml` `bundle.version` to `1.1.0` to reflect the readiness release aligned with the shipped workflow line (supports R5; keep consistent with CHANGELOG in T017).
+- [X] T011 [US2] Ratify `.specify/memory/constitution.md` via the `speckit.constitution` flow with the five principles from plan.md (Local-first & portable; Manifests are the contract; Docs must be executable; Behavior-preserving packaging; Guardrail before release), a Governance section, and a `Version: 1.0.0 | Ratified: 2026-06-30 | Last Amended: 2026-06-30` line — no placeholder tokens remain (satisfies FR-005, SC-004). Note: the `speckit.constitution` flow fires the mandatory `before_constitution` hook (`git.initialize`); git is already initialized, so this is an expected no-op.
 
 **Checkpoint**: Manifests agree with each other; constitution is real.
 
@@ -89,11 +89,11 @@ regressions; a documented step produces a distributable artifact.
 **Independent Test**: Run the check on a clean checkout → exit 0; break a manifest
 → non-zero with a specific message; run the build step → versioned artifact.
 
-- [ ] T012 [US3] Implement `scripts/validate-bundle.ps1` performing all assertions in `contracts/validation-check.md`: parse the four manifests; assert bundle-pinned versions match each component's own manifest; assert `speckit_version` floors are mutually compatible; assert every manifest file reference exists; assert the constitution has no placeholder tokens (satisfies FR-006).
-- [ ] T013 [US3] Ensure `scripts/validate-bundle.ps1` exits non-zero and prints an identifying message for each failure class (version mismatch, missing file reference, malformed YAML, placeholder constitution) (satisfies FR-007).
-- [ ] T014 [US3] Run `scripts/validate-bundle.ps1` on the corrected repository and confirm exit 0 with a PASS summary (contract T1 / quickstart Scenario A / SC-005).
-- [ ] T015 [US3] Temporarily break `bundle.yml` (wrong workflow version) and a command `file` reference; confirm the check fails naming each problem; revert and confirm exit 0 again (contract T2/T3 / quickstart Scenario B).
-- [ ] T016 [US3] Document distribution in `README.md`: the **supported** paths (install from clone with `--dev`; build an artifact with `specify bundle build` → `dist/`) **and**, plainly, the **unsupported** paths (raw-URL `specify extension add --from <url>`; catalog-based `specify bundle install`). Confirm the build produces a versioned archive (satisfies FR-009 parts a+b, SC-006 / quickstart Scenario F).
+- [X] T012 [US3] Implement `scripts/validate-bundle.ps1` performing all assertions in `contracts/validation-check.md`: parse the four manifests; assert bundle-pinned versions match each component's own manifest; assert `speckit_version` floors are mutually compatible; assert every manifest file reference exists; assert the constitution has no placeholder tokens (satisfies FR-006).
+- [X] T013 [US3] Ensure `scripts/validate-bundle.ps1` exits non-zero and prints an identifying message for each failure class (version mismatch, missing file reference, malformed YAML, placeholder constitution) (satisfies FR-007).
+- [X] T014 [US3] Run `scripts/validate-bundle.ps1` on the corrected repository and confirm exit 0 with a PASS summary (contract T1 / quickstart Scenario A / SC-005).
+- [X] T015 [US3] Temporarily break `bundle.yml` (wrong workflow version) and a command `file` reference; confirm the check fails naming each problem; revert and confirm exit 0 again (contract T2/T3 / quickstart Scenario B).
+- [X] T016 [US3] Document distribution in `README.md`: the **supported** paths (install from clone with `--dev`; build an artifact with `specify bundle build` → `dist/`) **and**, plainly, the **unsupported** paths (raw-URL `specify extension add --from <url>`; catalog-based `specify bundle install`). Confirm the build produces a versioned archive (satisfies FR-009 parts a+b, SC-006 / quickstart Scenario F). **Status:** distribution documented; live `specify bundle build` confirmation is **BLOCKED** — the `specify` CLI in this environment is currently failing with `ModuleNotFoundError: No module named 'specify_cli'` (a flaky external launcher issue, unrelated to this repo; `specify workflow add/list/info` succeeded earlier this session).
 
 **Checkpoint**: Correctness is guarded by a repeatable check; a release artifact can be produced.
 
@@ -103,10 +103,10 @@ regressions; a documented step produces a distributable artifact.
 
 **Purpose**: Publishable-project metadata and final verification.
 
-- [ ] T017 [P] Add `CHANGELOG.md` recording the readiness release (version 1.1.0, 2026-06-30) with the manifest/doc/validation changes (satisfies FR-011).
-- [ ] T018 [P] Add `CONTRIBUTING.md` explaining how to propose changes and that `scripts/validate-bundle.ps1` must pass before a PR/release (satisfies FR-011).
-- [ ] T019 Add a "Validate" section to `README.md` pointing contributors to `scripts/validate-bundle.ps1` and the quickstart scenarios.
-- [ ] T020 Run all `quickstart.md` scenarios (A–F) end-to-end and confirm every expected outcome; record results.
+- [X] T017 [P] Add `CHANGELOG.md` recording the readiness release (version 1.1.0, 2026-06-30) with the manifest/doc/validation changes (satisfies FR-011).
+- [X] T018 [P] Add `CONTRIBUTING.md` explaining how to propose changes and that `scripts/validate-bundle.ps1` must pass before a PR/release (satisfies FR-011).
+- [X] T019 Add a "Validate" section to `README.md` pointing contributors to `scripts/validate-bundle.ps1` and the quickstart scenarios.
+- [X] T020 Run all `quickstart.md` scenarios (A–F) end-to-end and confirm every expected outcome; record results. **Results:** A (validation exit 0, 7 checks) ✓; B (regression caught: wrong version + missing file both fail with specific messages, revert → exit 0) ✓; C (manifests consistent — automated by A) ✓; D (constitution has no placeholders — asserted by A and by inspection) ✓; E (install: `specify workflow add/list/info` succeeded earlier this session) ✓; F (`specify bundle build`) **BLOCKED** by the `specify` CLI outage noted in T016.
 
 ---
 

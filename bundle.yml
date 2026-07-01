@@ -2,7 +2,7 @@ schema_version: "1.0"
 bundle:
   id: sdd-cycle
   name: "SDD Cycle"
-  version: "1.0.0"
+  version: "1.1.0"
   role: "workflow"
   description: "Local-first SDD chain: specify→plan→tasks→analyze→gate→implement, with a one-command launcher"
   author: "peterelmwood"

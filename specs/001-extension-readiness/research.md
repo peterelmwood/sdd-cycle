@@ -7,22 +7,24 @@ open question.
 
 **Findings** (read from the repo):
 
-- `bundle.yml` → `provides.workflows[sdd].version: 1.0.0`, but
-  `workflows/sdd/workflow.yml` → `workflow.version: 1.1.0`. **Mismatch** (FR-003).
+> **Correction (implementation phase):** On close re-read, `bundle.yml` already
+> pins the workflow at `1.1.0` — there is **no** version mismatch. The initial
+> claim of drift was an error. The manifests are already consistent; the
+> version-reconciliation task is therefore a verification no-op, and a real
+> automated guard (R4) prevents future drift.
+
+- `bundle.yml` → `provides.workflows[sdd].version: 1.1.0` and
+  `workflows/sdd/workflow.yml` → `workflow.version: 1.1.0`. **Consistent.**
 - `bundle.yml` → `provides.extensions[sdd].version: 1.0.0` and
   `extensions/sdd/extension.yml` → `extension.version: 1.0.0`. **Consistent.**
 - `speckit_version` floor: `bundle.yml` `>=0.8.5`, `extension.yml` `>=0.8.5`,
   `workflow.yml` `requires.speckit_version >=0.8.5`. **Consistent.**
 
-**Rationale**: The bundle must pin the true component versions. The bundle already
-being `1.0.0` while it ships workflow `1.1.0` is exactly the drift FR-003/SC-003
-target.
+**Rationale**: The bundle already pins true component versions. The remaining
+value is a machine check that keeps them consistent as files change (R4).
 
-**Decision**: Align `bundle.yml` to pin workflow `sdd` at `1.1.0`. Bundle's own
-version is a separate concern; bump it (see R5).
-
-**Alternatives considered**: Downgrade the workflow to 1.0.0 — rejected, the 1.1.0
-step graph is the shipped/installed one.
+**Decision**: No manifest edit required for consistency. Optionally bump the
+bundle's own version to `1.1.0` to mark the readiness release (see R5).
 
 ## R2 — What "installable & documented" must guarantee
 
