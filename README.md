@@ -33,6 +33,10 @@ automatically; the only stop is the approval gate before `implement`.
 │   └── commands/speckit.sdd.run.md
 ├── commands/speckit-sdd-run.md          # launcher as a Claude Code slash command
 ├── bundle.yml                           # bundle manifest (pins the components)
+├── scripts/validate-bundle.ps1          # repeatable consistency/readiness check
+├── .specify/memory/constitution.md      # the bundle's governing principles
+├── CHANGELOG.md
+├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
 ```
@@ -63,16 +67,43 @@ Invoked with no argument, it asks what to build before starting.
 > on Claude. The extension remains for integrations whose command format is
 > directly invocable.
 
-> **Why a clone, not a raw URL?** `specify extension add <name> --from <url>`
-> expects a published extension **archive** (e.g.
-> `specify extension add sdd --from https://…/sdd.zip`) — not a repository
-> directory URL. This project does not publish such an archive, so install from
-> a clone with `--dev` as shown above.
->
-> Likewise, `specify bundle install` is **not** the install path: a Spec Kit
-> bundle resolves its components through a catalog this project does not publish.
-> `bundle.yml` exists only so `specify bundle build` can emit a versioned `.zip`
-> and to document the pinned component set.
+(For which distribution paths are and are not supported, see
+[Distribution](#distribution) below.)
+
+## Validate
+
+Before releasing or merging a change to the manifests, docs, or constitution, run
+the bundle consistency check:
+
+```powershell
+pwsh ./scripts/validate-bundle.ps1
+```
+
+It asserts that every bundle-pinned component version matches that component's own
+manifest, that the declared `speckit_version` floors agree, that every file a
+manifest references exists, and that the constitution is ratified (no placeholder
+tokens). It exits non-zero with a specific message on any failure. This check is
+required by the project [constitution](.specify/memory/constitution.md)
+(Principle V, "Guardrail Before Release").
+
+## Distribution
+
+**Supported:**
+
+- **Install from a clone** — the documented [Install](#install) path (`specify
+  workflow add <path>`, copy the slash command, or `specify extension add
+  <dir> --dev`).
+- **Build a versioned artifact** — `specify bundle build` emits a `.zip` under
+  `dist/` (git-ignored) pinned to the `bundle.yml` version. Use this to hand the
+  bundle to another machine.
+
+**Not supported (today):**
+
+- `specify extension add <name> --from <url>` — expects a published extension
+  **archive**, not a repo directory URL. This project publishes no such archive.
+- `specify bundle install` — resolves components through a public catalog this
+  project does not publish. `bundle.yml` exists to *build* an artifact and to
+  document the pinned component set, not to install from a catalog.
 
 ## History
 

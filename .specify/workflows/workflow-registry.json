@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "workflows": {
+    "speckit": {
+      "name": "Full SDD Cycle",
+      "version": "1.0.0",
+      "description": "Runs specify \u2192 plan \u2192 tasks \u2192 implement with review gates",
+      "source": "bundled",
+      "installed_at": "2026-07-01T03:44:48.939640+00:00",
+      "updated_at": "2026-07-01T03:44:48.939649+00:00"
+    },
+    "sdd": {
+      "name": "SDD Cycle",
+      "version": "1.1.0",
+      "description": "specify \u2192 plan \u2192 tasks \u2192 analyze \u2192 apply \u2192 implement; single gate before implement",
+      "source": "workflows\\sdd\\workflow.yml",
+      "installed_at": "2026-07-01T03:49:36.934636+00:00",
+      "updated_at": "2026-07-01T03:50:02.258174+00:00"
+    }
+  }
+}
