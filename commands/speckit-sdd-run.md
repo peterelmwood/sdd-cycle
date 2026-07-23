@@ -1,5 +1,5 @@
 ---
-description: "Run the full SDD cycle: specify→plan→tasks→analyze→apply→gate→implement"
+description: "Run the full SDD cycle: branch→specify→plan→tasks→analyze→apply→gate→implement"
 argument-hint: "Describe what you want to build"
 ---
 
@@ -23,14 +23,22 @@ The feature description is: $ARGUMENTS
 ## Run the chain (no stops until the gate)
 
 Invoke these in order, passing the spec where a description is taken.
-Project/extension hooks (feature branch, auto-commit, agent-context refresh) may
-run during specify/plan — that is expected; let them run.
+Project/extension hooks (auto-commit, agent-context refresh) may run during
+specify/plan — that is expected; let them run.
 
-1. `speckit-specify` with the spec.
-2. `speckit-plan`.
-3. `speckit-tasks`.
-4. `speckit-analyze` (always — cross-artifact consistency check).
-5. **Apply analysis findings:** apply every remediation suggestion from the
+1. **Create the feature branch (mandatory).** Ensure the cycle is on a dedicated
+   feature branch before producing any artifacts. In Claude Code the
+   `speckit-specify` skill's mandatory `before_specify` git hook creates it
+   (`speckit.git.feature`, sequential `NNN-<short-name>` or timestamp schema;
+   honors `GIT_BRANCH_NAME`). This step MUST NOT be skipped — do not produce
+   spec/plan/tasks on a shared/integration branch. If already on a valid feature
+   branch it is reused; if git is unavailable a clear warning is surfaced and the
+   cycle does not silently proceed as if the work were isolated.
+2. `speckit-specify` with the spec.
+3. `speckit-plan`.
+4. `speckit-tasks`.
+5. `speckit-analyze` (always — cross-artifact consistency check).
+6. **Apply analysis findings:** apply every remediation suggestion from the
    analyze run that resolves an inconsistency, ambiguity, or gap across
    `spec.md`, `plan.md`, and `tasks.md`, editing those files directly. Do not
    ask for confirmation. If analyze found no issues, make no changes and say so.

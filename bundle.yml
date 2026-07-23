@@ -2,9 +2,9 @@ schema_version: "1.0"
 bundle:
   id: sdd-cycle
   name: "SDD Cycle"
-  version: "1.1.0"
+  version: "1.2.0"
   role: "workflow"
-  description: "Local-first SDD chain: specify→plan→tasks→analyze→gate→implement, with a one-command launcher"
+  description: "Local-first SDD chain: branch→specify→plan→tasks→analyze→apply→gate→implement, with a mandatory feature branch first and a one-command launcher"
   author: "peterelmwood"
   license: "MIT"
 requires:
@@ -15,4 +15,4 @@ provides:
       version: "1.0.0"
   workflows:
     - id: sdd
-      version: "1.1.0"
+      version: "1.2.0"

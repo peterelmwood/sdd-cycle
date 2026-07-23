@@ -5,9 +5,12 @@ chains the spec-driven development cycle behind one launcher, with a single
 human gate before any code is written:
 
 ```
-specify → plan → tasks → analyze → (apply analysis fixes) → ⛔ gate → implement
+branch → specify → plan → tasks → analyze → (apply analysis fixes) → ⛔ gate → implement
 ```
 
+The cycle begins with a **mandatory feature-branch step**: every run creates (or
+reuses) a dedicated feature branch — named `NNN-<short-name>` or per the timestamp
+schema — before any artifact is produced, so work never lands on a shared branch.
 `analyze` always runs after `tasks` and its remediation suggestions are applied
 automatically; the only stop is the approval gate before `implement`.
 
