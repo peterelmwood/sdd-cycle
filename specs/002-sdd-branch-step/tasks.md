@@ -34,7 +34,7 @@ under `.specify/`.
 
 **Purpose**: Establish a known-good starting point before editing.
 
-- [ ] T001 Establish green baseline: run `pwsh ./scripts/validate-bundle.ps1` from the repo root and confirm exit code 0. Record the baseline `sdd` workflow version (`1.1.0`) and constitution version (`1.0.0`).
+- [x] T001 Establish green baseline: run `pwsh ./scripts/validate-bundle.ps1` from the repo root and confirm exit code 0. Record the baseline `sdd` workflow version (`1.1.0`) and constitution version (`1.0.0`).
 
 ---
 
@@ -45,8 +45,8 @@ story depends on this edit existing.
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T002 Add a mandatory `branch` step as the FIRST entry under `steps:` in `.specify/workflows/sdd/workflow.yml`, invoking the git extension command `speckit.git.feature`, positioned before the `specify` step. Preserve the order and meaning of all existing steps (`specify → plan → tasks → analyze → apply-analysis → review-before-implement → implement`) and the single gate (FR-001, FR-009; contract C1).
-- [ ] T003 Bump `workflow.version` from `1.1.0` to `1.2.0` in `.specify/workflows/sdd/workflow.yml`, update the pinned `sdd` workflow version under `provides.workflows` in `bundle.yml` to `1.2.0`, and bump `bundle.version` `1.1.0 → 1.2.0` so the pin equals the component version and the bundle version reflects the behavioral change (Constitution II; contract C2). Note: `bundle.version` policy is decided here — see T010, which no longer re-decides it.
+- [x] T002 Add a mandatory `branch` step as the FIRST entry under `steps:` in `.specify/workflows/sdd/workflow.yml`, invoking the git extension command `speckit.git.feature`, positioned before the `specify` step. Preserve the order and meaning of all existing steps (`specify → plan → tasks → analyze → apply-analysis → review-before-implement → implement`) and the single gate (FR-001, FR-009; contract C1).
+- [x] T003 Bump `workflow.version` from `1.1.0` to `1.2.0` in `.specify/workflows/sdd/workflow.yml`, update the pinned `sdd` workflow version under `provides.workflows` in `bundle.yml` to `1.2.0`, and bump `bundle.version` `1.1.0 → 1.2.0` so the pin equals the component version and the bundle version reflects the behavioral change (Constitution II; contract C2). Note: `bundle.version` policy is decided here — see T010, which no longer re-decides it.
 
 **Checkpoint**: The workflow now declares a mandatory branch step and manifests
 are version-consistent.
@@ -62,8 +62,8 @@ before any specification artifact is written.
 before `specify` and delegates to `speckit.git.feature`; dry-run the branch
 command (quickstart step 6) and confirm a schema-conformant `BRANCH_NAME`.
 
-- [ ] T004 [US1] In `.specify/workflows/sdd/workflow.yml`, confirm the `branch` step delegates to `speckit.git.feature` (which uses the project-configured sequential `NNN-<short-name>` / timestamp schema, honors `GIT_BRANCH_NAME`, avoids number collisions with existing feature dirs/branches, and reuses an existing valid feature branch), so no new branch mechanism is introduced and FR-004 (no collision) and FR-006 (reuse) are satisfied by the reused mechanism and verified in quickstart step 6 / contract C6 (FR-003, FR-004, FR-006; research D1/D3).
-- [ ] T005 [US1] Verify step ordering against contract C1 by reading `.specify/workflows/sdd/workflow.yml`: `steps[0].id == branch`, followed in order by `specify, plan, tasks, analyze, apply-analysis, review-before-implement, implement` (FR-001, FR-009).
+- [x] T004 [US1] In `.specify/workflows/sdd/workflow.yml`, confirm the `branch` step delegates to `speckit.git.feature` (which uses the project-configured sequential `NNN-<short-name>` / timestamp schema, honors `GIT_BRANCH_NAME`, avoids number collisions with existing feature dirs/branches, and reuses an existing valid feature branch), so no new branch mechanism is introduced and FR-004 (no collision) and FR-006 (reuse) are satisfied by the reused mechanism and verified in quickstart step 6 / contract C6 (FR-003, FR-004, FR-006; research D1/D3).
+- [x] T005 [US1] Verify step ordering against contract C1 by reading `.specify/workflows/sdd/workflow.yml`: `steps[0].id == branch`, followed in order by `specify, plan, tasks, analyze, apply-analysis, review-before-implement, implement` (FR-001, FR-009).
 
 **Checkpoint**: The isolation guarantee (branch-before-artifacts) is declared and
 inspectable.
@@ -79,8 +79,8 @@ warning, never a silent proceed-on-shared-branch.
 is non-optional; confirm the degradation behavior is documented and matches the
 underlying script's warn-without-false-success behavior.
 
-- [ ] T006 [US2] Ensure the `branch` step in `.specify/workflows/sdd/workflow.yml` is declared mandatory (not optional) and that no configuration path allows proceeding to `specify` on a shared branch without warning (FR-002; contract C1). Add a brief inline note documenting its required status.
-- [ ] T007 [US2] Document the graceful-degradation contract next to the step (in `.specify/workflows/sdd/workflow.yml` and/or the launcher): when git is unavailable the step surfaces a clear warning and does not report false success (FR-005; contract C6; research D6).
+- [x] T006 [US2] Ensure the `branch` step in `.specify/workflows/sdd/workflow.yml` is declared mandatory (not optional) and that no configuration path allows proceeding to `specify` on a shared branch without warning (FR-002; contract C1). Add a brief inline note documenting its required status.
+- [x] T007 [US2] Document the graceful-degradation contract next to the step (in `.specify/workflows/sdd/workflow.yml` and/or the launcher): when git is unavailable the step surfaces a clear warning and does not report false success (FR-005; contract C6; research D6).
 
 **Checkpoint**: The mandatory nature and degradation behavior are explicit and
 verifiable.
@@ -96,12 +96,12 @@ branch step in the same position, and governance is amended to match.
 points; confirm zero discrepancies (contract C3) and a ratified, amended
 constitution (contract C4).
 
-- [ ] T008 [P] [US3] Update `workflow.description` in `.specify/workflows/sdd/workflow.yml` to include the branch step in the cycle-order string (FR-008; contract C3).
-- [ ] T009 [P] [US3] Update the `extension.description` and the `speckit.sdd.run` command description in `.specify/extensions/sdd/extension.yml` to include the branch step in the cycle-order string (FR-008; contract C3).
-- [ ] T010 [P] [US3] Update `bundle.description` in `bundle.yml` to include the branch step, and align the string to include `apply`/`gate` consistently with the other manifests (FR-008; contract C3). (The `bundle.version` bump is handled in T003 — do not re-decide it here.)
-- [ ] T011 [US3] Update the launcher to name the mandatory branch step as an explicit first step in `.claude/commands/speckit-sdd-run.md` and the matching skill text under `.claude/skills/speckit-sdd-run/` so both entry points agree with `workflow.yml` (FR-007; contract C3).
-- [ ] T012 [US3] Amend Principle IV canonical order in `.specify/memory/constitution.md` to include the branch step; bump `Version` `1.0.0 → 1.1.0` and update `Last Amended` to 2026-07-23; ensure no placeholder tokens remain (FR-008; contract C4; research D5).
-- [ ] T013 [US3] Record the workflow version bump and the constitution amendment in `CHANGELOG.md` per the Governance section (contract C4).
+- [x] T008 [P] [US3] Update `workflow.description` in `.specify/workflows/sdd/workflow.yml` to include the branch step in the cycle-order string (FR-008; contract C3).
+- [x] T009 [P] [US3] Update the `extension.description` and the `speckit.sdd.run` command description in `.specify/extensions/sdd/extension.yml` to include the branch step in the cycle-order string (FR-008; contract C3).
+- [x] T010 [P] [US3] Update `bundle.description` in `bundle.yml` to include the branch step, and align the string to include `apply`/`gate` consistently with the other manifests (FR-008; contract C3). (The `bundle.version` bump is handled in T003 — do not re-decide it here.)
+- [x] T011 [US3] Update the launcher to name the mandatory branch step as an explicit first step in `.claude/commands/speckit-sdd-run.md` and the matching skill text under `.claude/skills/speckit-sdd-run/` so both entry points agree with `workflow.yml` (FR-007; contract C3).
+- [x] T012 [US3] Amend Principle IV canonical order in `.specify/memory/constitution.md` to include the branch step; bump `Version` `1.0.0 → 1.1.0` and update `Last Amended` to 2026-07-23; ensure no placeholder tokens remain (FR-008; contract C4; research D5).
+- [x] T013 [US3] Record the workflow version bump and the constitution amendment in `CHANGELOG.md` per the Governance section (contract C4).
 
 **Checkpoint**: All descriptions, both entry points, and governance are mutually
 consistent.
@@ -112,9 +112,9 @@ consistent.
 
 **Purpose**: Defend correctness mechanically and validate end-to-end.
 
-- [ ] T014 Review `scripts/validate-bundle.ps1`: if the canonical cycle-order is to become a machine-verified rule, add that assertion; otherwise confirm no change is needed and note why (Constitution V).
-- [ ] T015 Run `pwsh ./scripts/validate-bundle.ps1` from the repo root and confirm exit code 0 with no parse error, version inconsistency, missing file reference, or unratified-constitution error (contract C5).
-- [ ] T016 Execute `specs/002-sdd-branch-step/quickstart.md` steps 1–6 and confirm each expected outcome, including the branch-command dry-run (contract C6).
+- [x] T014 Review `scripts/validate-bundle.ps1`: if the canonical cycle-order is to become a machine-verified rule, add that assertion; otherwise confirm no change is needed and note why (Constitution V).
+- [x] T015 Run `pwsh ./scripts/validate-bundle.ps1` from the repo root and confirm exit code 0 with no parse error, version inconsistency, missing file reference, or unratified-constitution error (contract C5).
+- [x] T016 Execute `specs/002-sdd-branch-step/quickstart.md` steps 1–6 and confirm each expected outcome, including the branch-command dry-run (contract C6).
 
 ---
 

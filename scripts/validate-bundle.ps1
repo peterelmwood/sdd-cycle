@@ -11,6 +11,7 @@
       3. Declared speckit_version floors are consistent across manifests.
       4. Every file referenced by a manifest exists.
       5. The constitution is ratified (no placeholder tokens; has a Version line).
+      6. The sdd workflow begins with the mandatory `branch` step (constitution IV).
 
     Exits 0 when all assertions pass; non-zero with a specific message otherwise.
     Contract: specs/001-extension-readiness/contracts/validation-check.md
@@ -86,6 +87,23 @@ function Get-PinnedVersion([string]$text, [string]$section, [string]$label) {
         # stop if we reach the sibling section without finding a version
         if ($line -match '^\s+\w+:\s*$' -and $line -notmatch '^\s+version:') {
             if ($line -notmatch "^\s+$([regex]::Escape($section)):") { break }
+        }
+    }
+    Add-Failure "PARSE: could not read $label."
+    return $null
+}
+
+function Get-FirstStepId([string]$text, [string]$label) {
+    # Id of the first list item under a top-level `steps:` block. Line-based to
+    # stay consistent with the other readers (no multiline regex).
+    $lines = $text -split "`r?`n"
+    $inSteps = $false
+    foreach ($line in $lines) {
+        if ($line -match '^steps:\s*$') { $inSteps = $true; continue }
+        if ($inSteps) {
+            if ($line -match '^\S') { break }  # dedent out of steps block
+            $m = [regex]::Match($line, '^\s*-\s*id:\s*"?([^"\r\n]+?)"?\s*$')
+            if ($m.Success) { return $m.Groups[1].Value.Trim() }
         }
     }
     Add-Failure "PARSE: could not read $label."
@@ -178,6 +196,18 @@ if (Test-Path $constPath) {
     }
 } else {
     Add-Failure 'CONSTITUTION: .specify/memory/constitution.md not found.'
+}
+
+# --- Assertion 6: workflow begins with the mandatory branch step -----------
+if ($workflow) {
+    $firstStep = Get-FirstStepId $workflow 'workflow.yml first step id'
+    if ($firstStep) {
+        if ($firstStep -eq 'branch') {
+            Add-Pass 'CYCLE: sdd workflow begins with the mandatory branch step.'
+        } else {
+            Add-Failure "CYCLE: sdd workflow's first step is '$firstStep', expected 'branch' (the mandatory feature-branch step must run before specify)."
+        }
+    }
 }
 
 # --- Report -----------------------------------------------------------------

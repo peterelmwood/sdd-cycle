@@ -34,10 +34,16 @@ left without a path forward. Documentation drift is treated as a defect.
 ### IV. Behavior-Preserving Packaging
 
 Readiness, packaging, documentation, and governance work MUST NOT alter the SDD
-cycle's semantics — its step order (`specify → plan → tasks → analyze → apply →
-gate → implement`), its single pre-implement human gate, or the meaning of any
-step. Changes to cycle behavior are a separate, explicit concern from making the
-bundle installable and correct.
+cycle's semantics — its step order (`branch → specify → plan → tasks → analyze →
+apply → gate → implement`), its single pre-implement human gate, or the meaning
+of any step. The cycle begins with a mandatory feature-branch step: every cycle
+MUST run on a dedicated feature branch (named per the sequential `NNN-<short-name>`
+or timestamp schema, or an explicit override) created before any artifact is
+produced, so work is never performed on a shared/integration branch. Changes to
+cycle behavior are a separate, explicit concern from making the bundle
+installable and correct; when they are made deliberately (as with the addition of
+the mandatory branch step) they MUST be reflected consistently across the
+manifests, the launcher, and this order enumeration.
 
 ### V. Guardrail Before Release
 
@@ -67,4 +73,4 @@ verify compliance: the validation check (Principle V) MUST pass, and reviewers
 MUST confirm the change does not violate Principles I–IV. Complexity that appears
 to conflict with a principle MUST be justified explicitly or removed.
 
-**Version**: 1.0.0 | **Ratified**: 2026-06-30 | **Last Amended**: 2026-06-30
+**Version**: 1.1.0 | **Ratified**: 2026-06-30 | **Last Amended**: 2026-07-23

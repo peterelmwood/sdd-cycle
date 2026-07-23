@@ -2,9 +2,9 @@ schema_version: "1.0"
 workflow:
   id: "sdd"
   name: "SDD Cycle"
-  version: "1.1.0"
+  version: "1.2.0"
   author: "peterelmwood"
-  description: "specify → plan → tasks → analyze → apply → implement; single gate before implement"
+  description: "branch → specify → plan → tasks → analyze → apply → gate → implement; mandatory feature branch first, single gate before implement"
 
 requires:
   speckit_version: ">=0.8.5"
@@ -30,6 +30,28 @@ inputs:
     enum: ["full", "backend-only", "frontend-only"]
 
 steps:
+  # MANDATORY first step. Create/switch to an isolated feature branch before any
+  # artifact is produced, so the whole cycle (spec, plan, tasks, implementation)
+  # lands on a dedicated branch and never on a shared/integration branch.
+  #
+  # This is a required step, not an optional convenience: the cycle MUST NOT
+  # proceed to `specify` on a shared branch. It delegates to the git extension's
+  # speckit.git.feature, reusing the project-configured naming schema
+  # (sequential `NNN-<short-name>` or timestamp `YYYYMMDD-HHMMSS-<short-name>`)
+  # and honoring an explicit GIT_BRANCH_NAME override.
+  #
+  # Behavior notes:
+  #  - Already on a valid feature branch for this feature → the branch is reused
+  #    (no duplicate/renumbered branch).
+  #  - Git unavailable / not a repository → speckit.git.feature surfaces a clear
+  #    warning and does NOT report a false success; the cycle must not silently
+  #    proceed as if the work were isolated.
+  - id: branch
+    command: speckit.git.feature
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
   - id: specify
     command: speckit.specify
     integration: "{{ inputs.integration }}"
