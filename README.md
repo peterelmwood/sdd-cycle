@@ -110,10 +110,8 @@ required by the project [constitution](.specify/memory/constitution.md)
 
 ## History
 
-This bundle originated inside the
-[`blaiseelmwood.com`](https://github.com/peterelmwood/blaiseelmwood.com) repository
-(where it was dogfooded to drive that site's features) and was extracted into its
-own repository so it can be reused across projects. The commit history for these
+This bundle originated inside another project and was extracted into its own
+repository so it can be reused across projects. The commit history for these
 files is preserved from that origin.
 
 ## License
